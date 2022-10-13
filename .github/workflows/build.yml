@@ -1,0 +1,40 @@
+name: build
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*.*'
+  release:
+    types:
+      - published
+
+jobs:
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3.5.1
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'sbt'
+
+      - name: SBT Build
+        env:
+          CI_VERSION: ${{ github.ref }}
+        run: sbt "; test; nativeLink"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: 'target/scala-*/*.sh.bat'
+          retention-days: 5
