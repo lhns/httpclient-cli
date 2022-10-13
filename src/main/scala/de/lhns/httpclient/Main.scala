@@ -1,19 +1,14 @@
 package de.lhns.httpclient
 
 import caseapp.Parser
-import caseapp.cats.IOCaseApp
 import caseapp.core.Error.MalformedValue
-import caseapp.core.RemainingArgs
 import caseapp.core.app.CaseApp
 import caseapp.core.argparser.{ArgParser, SimpleArgParser}
 import cats.data.EitherT
 import cats.effect._
 import cats.syntax.all._
-import org.http4s.{Header, Headers, Method, Request, Uri}
-import cats.syntax.either._
 import org.http4s.curl.CurlApp
-import cats.syntax.functor._
-import cats.syntax.flatMap._
+import org.http4s.{Header, Headers, Method, Request, Uri}
 import org.typelevel.ci.CIString
 
 case class Options(
